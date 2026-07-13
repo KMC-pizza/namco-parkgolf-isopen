@@ -1,0 +1,38 @@
+*{box-sizing:border-box}
+:root{font-family:"Pretendard","Noto Sans KR",sans-serif;color:#19332f;background:#f2f6f5}
+body{margin:0}
+button,input,select,textarea{font:inherit}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:22px max(18px,calc((100% - 760px)/2));background:#0f766e;color:#fff}
+.admin-header p{margin:0 0 3px;font-size:12px;opacity:.78}
+.admin-header h1{margin:0;font-size:24px}
+.admin-main{width:min(100%,760px);margin:0 auto;padding:20px 14px 40px}
+.panel{margin-bottom:16px;padding:20px;background:#fff;border:1px solid #dce8e5;border-radius:18px;box-shadow:0 8px 24px rgba(15,118,110,.06)}
+.login-panel{max-width:430px;margin:40px auto}
+h2{margin:0;font-size:20px}
+.subtext,.message{color:#70817d;font-size:13px}
+label{display:grid;gap:6px;font-size:13px;font-weight:750}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cedbd8;border-radius:10px;background:#fff}
+textarea{resize:vertical}
+.primary-button,.secondary-button{border:0;border-radius:10px;cursor:pointer;font-weight:800}
+.primary-button{width:100%;margin-top:16px;padding:12px;background:#0f766e;color:#fff}
+.secondary-button{padding:9px 12px;background:#eaf3f1;color:#0f766e}
+.login-panel label+label{margin-top:12px}
+.panel-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.eyebrow{margin:0 0 3px;color:#0f766e;font-size:11px;font-weight:900;letter-spacing:.08em}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}
+fieldset{grid-column:1/-1;margin:0;padding:12px;border:1px solid #cedbd8;border-radius:10px}
+legend{padding:0 5px;font-size:13px;font-weight:800}
+.status-options{display:flex;gap:18px;flex-wrap:wrap}
+.status-options label{display:flex;align-items:center;gap:6px}
+.status-options input,.switch-row input{width:auto}
+.switch-row{margin-top:16px}
+.switch-row label{display:flex;align-items:center;gap:7px}
+.mode-banner{margin-bottom:14px;padding:11px 14px;border-radius:12px;background:#fff7df;color:#7c5c10;font-size:13px;font-weight:750}
+.history-item{padding:13px 0;border-bottom:1px solid #e7efed}
+.history-item:last-child{border-bottom:0}
+.history-top{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:#71847f}
+.history-title{margin-top:5px;font-weight:850}
+.history-detail{margin-top:4px;color:#657672;font-size:13px}
+.empty{padding:20px;text-align:center;color:#81918e}
+@media(max-width:560px){.form-grid{grid-template-columns:1fr}.full,fieldset{grid-column:auto}.admin-header{padding-left:16px;padding-right:16px}}

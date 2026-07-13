@@ -338,3 +338,26 @@ footer {
     content: none;
   }
 }
+
+
+.notification-button {
+  margin-top: 9px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #0f766e;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.notification-button:disabled {
+  opacity: .55;
+  cursor: default;
+}
+
+.notification-message {
+  min-height: 18px;
+  color: #6b5a2e !important;
+}

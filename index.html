@@ -51,6 +51,8 @@
     <section class="notice-panel">
       <strong>안내</strong>
       <p>별표를 누르면 관심시설로 저장됩니다.</p>
+      <button id="notificationButton" class="notification-button" type="button">관심시설 알림 받기</button>
+      <p id="notificationMessage" class="notification-message"></p>
       <p>운영상태는 기상상황과 현장 여건에 따라 변경될 수 있습니다.</p>
     </section>
   </main>
@@ -59,6 +61,8 @@
     <p>남구시설 알리미</p>
   </footer>
 
+  <script src="./config.js"></script>
+  <script type="module" src="./push.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>

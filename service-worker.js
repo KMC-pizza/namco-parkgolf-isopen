@@ -1,10 +1,15 @@
-const CACHE_NAME = "namgu-facility-pwa-v2";
+const CACHE_NAME = "namco-alarmi-pwa-v3";
 
 const APP_SHELL = [
   "./",
   "./index.html",
   "./style.css",
   "./app.js",
+  "./config.js",
+  "./push.js",
+  "./admin/index.html",
+  "./admin/admin.css",
+  "./admin/admin.js",
   "./manifest.json",
   "./data/status.json",
   "./icons/icon-192.png",
@@ -51,5 +56,45 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request))
+  );
+});
+
+
+self.addEventListener("push", (event) => {
+  if (!event.data) return;
+
+  let payload = {};
+  try {
+    payload = event.data.json();
+  } catch {
+    payload = { notification: { title: "남구시설 알리미", body: event.data.text() } };
+  }
+
+  const notification = payload.notification || {};
+  const data = payload.data || {};
+
+  event.waitUntil(
+    self.registration.showNotification(notification.title || "남구시설 알리미", {
+      body: notification.body || "시설 운영상태가 변경되었습니다.",
+      icon: "./icons/icon-192.png",
+      badge: "./icons/icon-192.png",
+      data: {
+        url: data.url || "./"
+      }
+    })
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const targetUrl = new URL(event.notification.data?.url || "./", self.location.origin).href;
+
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if (client.url === targetUrl && "focus" in client) return client.focus();
+      }
+      return clients.openWindow ? clients.openWindow(targetUrl) : undefined;
+    })
   );
 });

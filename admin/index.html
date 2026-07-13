@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>남구시설 알리미 관리자</title>
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <div>
+      <p>남구시설 알리미</p>
+      <h1>운영상태 관리</h1>
+    </div>
+    <button id="logoutButton" class="secondary-button" hidden>로그아웃</button>
+  </header>
+
+  <main class="admin-main">
+    <section id="loginPanel" class="panel login-panel">
+      <h2>관리자 로그인</h2>
+      <p class="subtext">현재는 GitHub Pages 시험용 로그인입니다.</p>
+      <label>아이디<input id="adminId" autocomplete="username"></label>
+      <label>비밀번호<input id="adminPassword" type="password" autocomplete="current-password"></label>
+      <button id="loginButton" class="primary-button">로그인</button>
+      <p id="loginMessage" class="message"></p>
+    </section>
+
+    <section id="managerPanel" hidden>
+      <div class="mode-banner" id="modeBanner"></div>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">시설 상태 변경</p>
+            <h2>운영정보 입력</h2>
+          </div>
+          <button id="reloadButton" class="secondary-button">새로고침</button>
+        </div>
+
+        <div class="form-grid">
+          <label>시설
+            <select id="facilitySelect"></select>
+          </label>
+
+          <fieldset>
+            <legend>운영상태</legend>
+            <div class="status-options">
+              <label><input type="radio" name="status" value="OPEN"> 운영</label>
+              <label><input type="radio" name="status" value="CLOSED"> 휴장</label>
+              <label><input type="radio" name="status" value="SCHEDULED_CLOSE"> 휴장예정</label>
+            </div>
+          </fieldset>
+
+          <label>사유
+            <select id="reasonSelect">
+              <option value="">해당 없음</option>
+              <option>폭염</option>
+              <option>우천</option>
+              <option>강풍</option>
+              <option>시설점검</option>
+              <option>공사</option>
+              <option>행사</option>
+              <option>기타</option>
+            </select>
+          </label>
+
+          <label>기타 사유
+            <input id="customReason" placeholder="기타 선택 시 입력">
+          </label>
+
+          <label>운영시간
+            <input id="hoursInput" placeholder="예: 09:00 ~ 19:00">
+          </label>
+
+          <label>휴장일
+            <input id="closedDayInput" placeholder="예: 매주 월요일">
+          </label>
+
+          <label class="full">관리자
+            <input id="adminNameInput">
+          </label>
+
+          <label class="full">푸시 알림 문구
+            <textarea id="pushMessage" rows="3" placeholder="비워두면 상태와 사유를 기준으로 자동 생성"></textarea>
+          </label>
+        </div>
+
+        <div class="switch-row">
+          <label><input id="sendPush" type="checkbox" checked> 상태 변경 시 푸시 발송</label>
+        </div>
+
+        <button id="saveButton" class="primary-button">저장</button>
+        <p id="saveMessage" class="message"></p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">최근 기록</p>
+            <h2>변경이력</h2>
+          </div>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="./admin.js"></script>
+</body>
+</html>
