@@ -18,7 +18,7 @@ window.NAMCO_CONFIG = {
   },
 
   // Firebase Console > Cloud Messaging > 웹 푸시 인증서의 공개 VAPID 키
-  vapidKey: "",
+  vapidKey: "BPFSTK0KxycBORAijMBobpklTvFZXXP76VViCPA4XF234tFVx-q1hSpI0WO2NdK8XQogTJXAQ_t77qHaWnKzv2E",
 
   // 관리자 페이지의 임시 로컬 테스트용
   // 실제 운영에서는 반드시 서버 로그인으로 교체
