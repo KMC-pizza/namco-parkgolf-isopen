@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="남구시설관리공단 주요 시설의 실시간 운영상태를 확인하는 서비스입니다." />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>남구시설 알리미</title>
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">남구시설관리공단</p>
+      <h1>시설 운영 알리미</h1>
+      <p class="header-copy">현재 운영상태를 한눈에 확인하세요.</p>
+    </div>
+    <button id="installButton" class="install-button" hidden>홈 화면에 추가</button>
+  </header>
+
+  <main class="page">
+    <section class="summary-panel" aria-label="운영 현황 요약">
+      <div>
+        <span class="summary-label">현재 시각</span>
+        <strong id="currentTime">-</strong>
+      </div>
+      <div>
+        <span class="summary-label">마지막 갱신</span>
+        <strong id="lastUpdated">-</strong>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow dark">실시간 운영현황</p>
+          <h2>주요 시설</h2>
+        </div>
+        <button id="refreshButton" class="text-button" type="button">새로고침</button>
+      </div>
+
+      <div id="facilityList" class="facility-list" aria-live="polite"></div>
+    </section>
+
+    <section class="interest-panel">
+      <div class="section-heading compact">
+        <div>
+          <p class="eyebrow dark">관심시설 설정</p>
+          <h2>알림 받을 시설</h2>
+        </div>
+      </div>
+      <p class="helper-text">
+        관심시설 선택값은 현재 휴대전화에 저장됩니다. 푸시 알림 기능은 다음 단계에서 연결합니다.
+      </p>
+      <div id="interestList" class="interest-list"></div>
+    </section>
+
+    <section class="notice-panel">
+      <strong>안내</strong>
+      <p>운영상태는 기상상황과 현장 여건에 따라 변경될 수 있습니다.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>남구시설 알리미 · PWA 기술검증용 프로토타입</p>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
