@@ -9,12 +9,12 @@ window.NAMCO_CONFIG = {
   // FCM 웹 설정값. Firebase Console의 '웹 앱 추가' 후 공개 설정값을 입력
   // 이 값은 웹 클라이언트 식별값이며 서비스 계정 비밀키가 아님
   firebase: {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
+  apiKey: "AIzaSyDtArlOzw6XqXWa3Bt9oCNkHVLxbOb-YBY",
+  authDomain: "namco-alarmi.firebaseapp.com",
+  projectId: "namco-alarmi",
+  storageBucket: "namco-alarmi.firebasestorage.app",
+  messagingSenderId: "601757144745",
+  appId: "1:601757144745:web:bf9ad03e17d8efbe77bbb8"
   },
 
   // Firebase Console > Cloud Messaging > 웹 푸시 인증서의 공개 VAPID 키
