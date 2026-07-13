@@ -2,8 +2,8 @@
   "name": "남구시설 알리미",
   "short_name": "시설알리미",
   "description": "남구시설관리공단 주요 시설의 현재 운영상태를 확인합니다.",
-  "start_url": "./",
-  "scope": "./",
+"start_url": "/namco-alarmi/",
+"scope": "/namco-alarmi/"
   "display": "standalone",
   "background_color": "#f3f7f6",
   "theme_color": "#0f766e",
