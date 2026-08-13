@@ -12,7 +12,7 @@ import {
   setDoc,
   updateDoc
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-import { db, ensureAnonymousUser, getSupportedMessaging } from "./firebase-client.js";
+import { db, ensureAnonymousUser, getInstallationId, getSupportedMessaging } from "./firebase-client.js";
 
 const config = window.NAMCO_CONFIG;
 const notificationButton = document.querySelector("#notificationButton");
@@ -40,6 +40,10 @@ function setUi(enabled) {
 
 function isLocallyEnabled() {
   return localStorage.getItem(PUSH_ENABLED_KEY) === "1";
+}
+
+function isStandalonePwa() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 }
 
 async function saveRegistration(fid) {
@@ -152,8 +156,10 @@ async function enableNotifications() {
       serviceWorkerRegistration: swRegistration
     });
 
-    // 실제 FID 저장은 onRegistered 콜백에서 수행됩니다.
-    showMessage("알림 기기를 등록하고 있습니다.");
+    // register()가 성공하면 현재 Firebase Installation ID를 직접 읽어
+    // Firestore에 즉시 저장합니다. onRegistered()는 FID 변경/갱신 감지용으로 유지합니다.
+    const fid = await getInstallationId();
+    await saveRegistration(fid);
   } catch (error) {
     console.error(error);
     showMessage(error.message || "알림 설정 중 오류가 발생했습니다.", true);
@@ -190,10 +196,21 @@ async function initializePushUi() {
     return;
   }
 
+  // 이 서비스는 설치형 PWA 사용을 기본 흐름으로 합니다.
+  // 일반 Chrome 탭에서는 Android/WebAPK와 알림 권한 상태가 다르게 보일 수 있으므로
+  // 홈 화면에 추가한 뒤 앱 아이콘으로 실행하도록 안내합니다.
+  if (!isStandalonePwa()) {
+    localStorage.setItem(PUSH_ENABLED_KEY, "0");
+    setUi(false);
+    notificationButton.disabled = true;
+    showMessage("푸시알림은 홈 화면에 추가한 뒤 시설알리미 앱에서 설정해 주세요.");
+    return;
+  }
+
   if (Notification.permission === "denied") {
     localStorage.setItem(PUSH_ENABLED_KEY, "0");
     setUi(false);
-    showMessage("브라우저에서 알림이 차단되어 있습니다.", true);
+    showMessage("이 앱의 알림 권한이 차단되어 있습니다. 휴대폰 앱 알림 설정에서 허용해 주세요.", true);
     return;
   }
 
@@ -210,6 +227,8 @@ async function initializePushUi() {
         vapidKey: config.vapidKey,
         serviceWorkerRegistration: swRegistration
       });
+      const fid = await getInstallationId();
+      await saveRegistration(fid);
     } catch (error) {
       console.error("알림 등록 갱신 실패:", error);
       showMessage("알림 등록상태를 확인하지 못했습니다.", true);

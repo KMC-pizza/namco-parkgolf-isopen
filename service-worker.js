@@ -13,7 +13,7 @@ firebase.initializeApp({
 // Firebase Messaging이 이 서비스워커를 통해 백그라운드 푸시를 처리합니다.
 firebase.messaging();
 
-const CACHE_NAME = "namco-parkgolf-isopen-pwa-v1";
+const CACHE_NAME = "namco-parkgolf-isopen-pwa-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -46,6 +46,22 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
   if (event.request.url.includes("/data/status.json")) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  const url = new URL(event.request.url);
+  const networkFirst = url.pathname.endsWith(".js") || url.pathname.endsWith(".html") || url.pathname.endsWith("/");
+
+  if (networkFirst) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {

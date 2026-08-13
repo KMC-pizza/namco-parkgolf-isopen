@@ -40,3 +40,10 @@ Firebase 공개 웹 설정과 VAPID 공개키는 `config.js` 및 서비스워커
 서비스 계정 JSON 개인키는 이 저장소에 넣지 않습니다.
 
 Firebase Console에서 추가로 해야 할 일은 `FIREBASE_SETUP.md`를 참고하세요.
+
+
+## v2 알림 등록 보강
+- 설치형 PWA(홈 화면 추가)에서 알림 설정하도록 안내
+- `register()` 성공 직후 Firebase Installations `getId()`로 FID를 직접 확보해 Firestore에 즉시 저장
+- `onRegistered()`는 FID 변경/갱신 동기화용으로 유지
+- 서비스워커 캐시를 v2로 갱신하고 JS/HTML은 network-first 적용

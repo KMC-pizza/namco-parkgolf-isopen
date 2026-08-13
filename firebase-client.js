@@ -1,6 +1,7 @@
 import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import { getInstallations, getId } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-installations.js";
 import { getMessaging, isSupported } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-messaging.js";
 
 const config = window.NAMCO_CONFIG;
@@ -15,6 +16,7 @@ export const firebaseApp = getApps().length
 
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
+export const installations = getInstallations(firebaseApp);
 
 export async function ensureAnonymousUser() {
   if (auth.currentUser) return auth.currentUser;
@@ -25,4 +27,8 @@ export async function ensureAnonymousUser() {
 export async function getSupportedMessaging() {
   const supported = await isSupported().catch(() => false);
   return supported ? getMessaging(firebaseApp) : null;
+}
+
+export async function getInstallationId() {
+  return getId(installations);
 }
