@@ -1,29 +1,10 @@
 {
-  "updatedAt": "2026-07-13T16:10:00+09:00",
-  "facilities": [
-    {
-      "id": "park-golf",
-      "name": "남구파크골프장",
-      "status": "OPEN",
-      "reason": "",
-      "hours": "07:00 ~ 19:00",
-      "closedDay": "매주 월요일"
-    },
-    {
-      "id": "skywalk",
-      "name": "오륙도스카이워크",
-      "status": "OPEN",
-      "reason": "",
-      "hours": "09:00 ~ 19:00",
-      "closedDay": "연중무휴"
-    },
-    {
-      "id": "baegunpo",
-      "name": "백운포체육공원",
-      "status": "OPEN",
-      "reason": "",
-      "hours": "06:00 ~ 22:00",
-      "closedDay": "시설별 상이"
-    }
-  ]
+  "id": "park-golf",
+  "name": "남구파크골프장",
+  "status": "OPEN",
+  "reason": "",
+  "notice": "",
+  "hours": "07:00 ~ 19:00",
+  "closedDay": "매주 월요일",
+  "updatedAt": "2026-08-13T20:00:00+09:00"
 }

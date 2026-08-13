@@ -1,15 +1,27 @@
-const CACHE_NAME = "namco-alarmi-pwa-v3";
+importScripts("https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/12.17.1/firebase-messaging-compat.js");
 
+firebase.initializeApp({
+  apiKey: "AIzaSyDIxWquVpyD966Ur8GojY-QwENh3aByfqU",
+  authDomain: "namco-parkgolf-isopen.firebaseapp.com",
+  projectId: "namco-parkgolf-isopen",
+  storageBucket: "namco-parkgolf-isopen.firebasestorage.app",
+  messagingSenderId: "619415491274",
+  appId: "1:619415491274:web:7f4328c7366837b253da33"
+});
+
+// Firebase Messaging이 이 서비스워커를 통해 백그라운드 푸시를 처리합니다.
+firebase.messaging();
+
+const CACHE_NAME = "namco-parkgolf-isopen-pwa-v1";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./style.css",
-  "./app.js",
   "./config.js",
+  "./firebase-client.js",
+  "./app.js",
   "./push.js",
-  "./admin/index.html",
-  "./admin/admin.css",
-  "./admin/admin.js",
   "./manifest.json",
   "./data/status.json",
   "./icons/icon-192.png",
@@ -17,21 +29,15 @@ const APP_SHELL = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((key) => key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
-      )
-    )
+    caches.keys().then((keys) => Promise.all(
+      keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+    ))
   );
   self.clients.claim();
 });
@@ -44,9 +50,7 @@ self.addEventListener("fetch", (event) => {
       fetch(event.request)
         .then((response) => {
           const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, clone);
-          });
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
           return response;
         })
         .catch(() => caches.match(event.request))
@@ -56,45 +60,5 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request))
-  );
-});
-
-
-self.addEventListener("push", (event) => {
-  if (!event.data) return;
-
-  let payload = {};
-  try {
-    payload = event.data.json();
-  } catch {
-    payload = { notification: { title: "남구시설 알리미", body: event.data.text() } };
-  }
-
-  const notification = payload.notification || {};
-  const data = payload.data || {};
-
-  event.waitUntil(
-    self.registration.showNotification(notification.title || "남구시설 알리미", {
-      body: notification.body || "시설 운영상태가 변경되었습니다.",
-      icon: "./icons/icon-192.png",
-      badge: "./icons/icon-192.png",
-      data: {
-        url: data.url || "./"
-      }
-    })
-  );
-});
-
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-  const targetUrl = new URL(event.notification.data?.url || "./", self.location.origin).href;
-
-  event.waitUntil(
-    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-      for (const client of clientList) {
-        if (client.url === targetUrl && "focus" in client) return client.focus();
-      }
-      return clients.openWindow ? clients.openWindow(targetUrl) : undefined;
-    })
   );
 });

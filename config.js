@@ -1,30 +1,16 @@
 window.NAMCO_CONFIG = {
-  // GitHub Pages에서 화면만 시험할 때 true
-  // 실제 API 서버를 연결한 뒤 false로 변경
-  mockMode: true,
+  projectPath: "/namco-parkgolf-isopen/",
+  facilityId: "park-golf",
 
-  // 실제 서버 주소 예: "https://알림서버.example.kr"
-  apiBaseUrl: "",
-
-  // FCM 웹 설정값. Firebase Console의 '웹 앱 추가' 후 공개 설정값을 입력
-  // 이 값은 웹 클라이언트 식별값이며 서비스 계정 비밀키가 아님
   firebase: {
-  apiKey: "AIzaSyDtArlOzw6XqXWa3Bt9oCNkHVLxbOb-YBY",
-  authDomain: "namco-alarmi.firebaseapp.com",
-  projectId: "namco-alarmi",
-  storageBucket: "namco-alarmi.firebasestorage.app",
-  messagingSenderId: "601757144745",
-  appId: "1:601757144745:web:bf9ad03e17d8efbe77bbb8"
+    apiKey: "AIzaSyDIxWquVpyD966Ur8GojY-QwENh3aByfqU",
+    authDomain: "namco-parkgolf-isopen.firebaseapp.com",
+    projectId: "namco-parkgolf-isopen",
+    storageBucket: "namco-parkgolf-isopen.firebasestorage.app",
+    messagingSenderId: "619415491274",
+    appId: "1:619415491274:web:7f4328c7366837b253da33"
   },
 
-  // Firebase Console > Cloud Messaging > 웹 푸시 인증서의 공개 VAPID 키
-  vapidKey: "BPFSTK0KxycBORAijMBobpklTvFZXXP76VViCPA4XF234tFVx-q1hSpI0WO2NdK8XQogTJXAQ_t77qHaWnKzv2E",
-
-  // 관리자 페이지의 임시 로컬 테스트용
-  // 실제 운영에서는 반드시 서버 로그인으로 교체
-  mockAdmin: {
-    id: "admin",
-    password: "1234",
-    name: "김민철"
-  }
+  // Firebase Console > 프로젝트 설정 > Cloud Messaging > 웹 푸시 인증서의 공개키
+  vapidKey: "BKKUrVbErHFSqfsCqs-TpONJLLJSF_gFIovQo-C3hL_MJ17LsR2opNA25J37PwKO64QX2FbRFW6i3iA7gZFzrCI"
 };

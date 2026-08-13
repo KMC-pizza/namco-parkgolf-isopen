@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0f766e" />
-  <meta name="description" content="남구시설관리공단 주요 시설의 실시간 운영상태를 확인하는 서비스입니다." />
+  <meta name="description" content="남구파크골프장의 실시간 운영상태와 휴장·운영재개 알림을 제공하는 서비스입니다." />
   <link rel="manifest" href="./manifest.json" />
   <link rel="apple-touch-icon" href="./icons/icon-192.png" />
   <link rel="stylesheet" href="./style.css" />
-  <title>남구시설 알리미</title>
+  <title>남구파크골프장 운영알리미</title>
 </head>
 <body>
   <header class="app-header">
     <div class="header-content">
       <div>
         <p class="eyebrow">남구시설관리공단</p>
-        <h1>시설 운영 알리미</h1>
-        <p class="header-copy">주요 시설 운영상태를 확인하세요.</p>
+        <h1>남구파크골프장<br />운영알리미</h1>
+        <p class="header-copy">오늘 운영 여부를 확인하고 변경 알림을 받아보세요.</p>
       </div>
       <button id="installButton" class="install-button" type="button" hidden>
         홈 화면에 추가
@@ -40,29 +40,46 @@
       <div class="section-heading">
         <div>
           <p class="eyebrow dark">실시간 운영현황</p>
-          <h2>주요 시설</h2>
+          <h2>남구파크골프장</h2>
         </div>
         <button id="refreshButton" class="text-button" type="button">새로고침</button>
       </div>
 
-      <div id="facilityList" class="facility-list" aria-live="polite"></div>
+      <div id="facilityCard" class="facility-list" aria-live="polite">
+        <div class="loading-message">운영상태를 불러오는 중입니다.</div>
+      </div>
     </section>
 
-    <section class="notice-panel">
-      <strong>안내</strong>
-      <p>별표를 누르면 관심시설로 저장됩니다.</p>
-      <button id="notificationButton" class="notification-button" type="button">관심시설 알림 받기</button>
-      <p id="notificationMessage" class="notification-message"></p>
+    <section class="notice-panel notification-panel" aria-labelledby="pushTitle">
+      <div class="notification-heading">
+        <div>
+          <p class="eyebrow dark">푸시알림</p>
+          <h2 id="pushTitle">운영상황 변경 알림</h2>
+        </div>
+        <span id="notificationState" class="notification-state is-off">꺼짐</span>
+      </div>
+
+      <p class="notification-description">
+        휴장, 임시 운영중단, 운영재개 등 주요 운영상황이 변경되면 알려드립니다.
+      </p>
+      <button id="notificationButton" class="notification-button" type="button">
+        알림 받기
+      </button>
+      <p id="notificationMessage" class="notification-message" aria-live="polite"></p>
+    </section>
+
+    <section class="notice-panel compact-notice">
+      <strong>이용 안내</strong>
       <p>운영상태는 기상상황과 현장 여건에 따라 변경될 수 있습니다.</p>
     </section>
   </main>
 
   <footer>
-    <p>남구시설 알리미</p>
+    <p>남구시설관리공단 · 남구파크골프장</p>
   </footer>
 
   <script src="./config.js"></script>
+  <script type="module" src="./app.js"></script>
   <script type="module" src="./push.js"></script>
-  <script src="./app.js"></script>
 </body>
 </html>

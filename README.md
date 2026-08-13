@@ -1,63 +1,42 @@
-# 남구시설 알리미 전체 기능 시제품
+# namco-parkgolf-isopen
 
-## 지금 바로 가능한 기능
+남구파크골프장 운영상태 확인 및 푸시알림 PWA입니다.
 
-- 이용객 시설 상태 조회
-- 별표 관심시설 저장
-- 알림 권한 요청 화면
-- `/admin/` 관리자 페이지
-- 운영 / 휴장 / 휴장예정 변경
-- 휴장 사유, 운영시간, 휴장일 입력
-- 변경이력 표시
-- 시험 모드에서 브라우저 LocalStorage 저장
-- 실제 API 서버 연결용 코드
-- FCM 토큰 등록 및 서버 푸시 발송용 코드
+## 현재 구조
 
-## 반드시 알아둘 점
+- GitHub Pages: 이용객 PWA 배포
+- Firebase Firestore: 운영상태 및 알림 기기 FID 저장
+- Firebase Authentication: 이용객 기기를 익명 인증으로 구분
+- Firebase Cloud Messaging: 휴장·운영재개 등 푸시알림
+- FMS(추후): Firestore 상태 갱신 + FCM 푸시 발송
 
-GitHub Pages에서는 파일을 서버처럼 수정할 수 없습니다.
+공단 내부 FMS는 외부에서 접속받지 않고 Firebase로 HTTPS 아웃바운드 통신만 사용하도록 설계합니다.
 
-현재 `config.js`의 `mockMode: true` 상태에서는 관리자 저장 내용이
-관리자 본인의 브라우저에만 저장됩니다. 일반 이용객 화면에는 반영되지 않습니다.
+## GitHub 저장소
 
-실제 운영하려면 `server/` 폴더의 서버를 공단 서버 등에 올린 뒤:
+권장 저장소명: `namco-parkgolf-isopen`
 
-1. `config.js`의 `mockMode`를 `false`로 변경
-2. `apiBaseUrl`에 실제 서버 HTTPS 주소 입력
-3. 이용객 `app.js`의 상태 조회 주소를 API 주소로 전환
-4. FCM 공개 설정값과 VAPID 공개키 입력
-5. 서버에는 서비스 계정 파일을 GitHub 밖에 보관
+GitHub Pages 주소 예시:
 
-## GitHub 업로드
+`https://kmc-pizza.github.io/namco-parkgolf-isopen/`
 
-압축을 푼 다음 저장소 `namco-alarmi` 첫 화면에서:
+## 배포
 
-1. `Add file`
-2. `Upload files`
-3. 이 압축 안의 파일과 폴더를 모두 드래그
-4. 같은 이름 파일은 덮어쓰기
-5. 아래 `Commit changes` 클릭
+이 폴더의 파일들을 저장소 최상위에 업로드한 뒤 GitHub Pages를 활성화합니다.
 
-폴더 구조가 유지되어야 합니다.
+PWA 경로는 아래 값으로 이미 변경되어 있습니다.
 
-- `admin/index.html`
-- `data/status.json`
-- `server/app.py`
+- `start_url`: `/namco-parkgolf-isopen/`
+- `scope`: `/namco-parkgolf-isopen/`
+- 서비스워커 캐시명: `namco-parkgolf-isopen-pwa-v1`
 
-`server/` 폴더는 GitHub Pages에서 실행되지 않으며, 나중에 별도 서버에 배포할 참고 코드입니다.
+## Firebase
 
-## 관리자 시험 로그인
+Firebase 프로젝트: `namco-parkgolf-isopen`
 
-- 주소: `https://kmc-pizza.github.io/namco-alarmi/admin/`
-- 아이디: `admin`
-- 비밀번호: `1234`
+Firebase 공개 웹 설정과 VAPID 공개키는 `config.js` 및 서비스워커에 반영되어 있습니다.
+이 값들은 웹 클라이언트용 공개 식별값입니다.
 
-이 값은 공개 코드에 있으므로 실제 보안 로그인으로 사용할 수 없습니다.
-실제 서버 연결 전 화면 시험용입니다.
+서비스 계정 JSON 개인키는 이 저장소에 넣지 않습니다.
 
-## 실제 FCM 준비값
-
-`config.js`에 Firebase 웹 앱 공개 설정값과 VAPID 공개키만 입력합니다.
-서비스 계정 JSON 파일은 절대로 GitHub에 업로드하지 않습니다.
-
-푸시 발송은 `server/app.py`가 Firebase Admin SDK로 수행합니다.
+Firebase Console에서 추가로 해야 할 일은 `FIREBASE_SETUP.md`를 참고하세요.
