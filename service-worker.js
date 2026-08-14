@@ -10,19 +10,18 @@ firebase.initializeApp({
   appId: "1:619415491274:web:7f4328c7366837b253da33"
 });
 
-// Firebase Messaging이 이 서비스워커를 통해 백그라운드 푸시를 처리합니다.
 firebase.messaging();
 
-// 89차: config.js/app.js 변경이 기존 캐시에 남지 않도록 캐시 버전 갱신
-const CACHE_NAME = "namco-parkgolf-isopen-pwa-v3";
+// v36 90차: 새 배포를 확실히 구분하기 위한 캐시 버전
+const CACHE_NAME = "namco-parkgolf-isopen-pwa-v4";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./style.css",
-  "./config.js",
+  "./style.css?v=90",
+  "./config.js?v=90",
   "./firebase-client.js",
-  "./app.js",
-  "./push.js",
+  "./app.js?v=90",
+  "./push.js?v=90",
   "./manifest.json",
   "./data/status.json",
   "./icons/icon-192.png",
@@ -46,7 +45,9 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
-  if (event.request.url.includes("/data/status.json")) {
+  const url = new URL(event.request.url);
+
+  if (url.pathname.includes("/data/status.json")) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
@@ -59,8 +60,12 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  const url = new URL(event.request.url);
-  const networkFirst = url.pathname.endsWith(".js") || url.pathname.endsWith(".html") || url.pathname.endsWith("/");
+  // HTML/JS/CSS 및 앱 진입은 최신 배포를 우선 확인
+  const networkFirst =
+    url.pathname.endsWith(".js") ||
+    url.pathname.endsWith(".css") ||
+    url.pathname.endsWith(".html") ||
+    url.pathname.endsWith("/");
 
   if (networkFirst) {
     event.respondWith(
