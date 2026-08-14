@@ -1,10 +1,11 @@
 {
-  "id": "park-golf",
+  "id": "park_golf",
   "name": "남구파크골프장",
-  "status": "OPEN",
+  "status": "NORMAL",
+  "statusLabel": "정상운영",
   "reason": "",
-  "notice": "",
+  "message": "",
   "hours": "07:00 ~ 19:00",
   "closedDay": "매주 월요일",
-  "updatedAt": "2026-08-13T20:00:00+09:00"
+  "updatedAt": "2026-08-14T09:00:00+09:00"
 }

@@ -1,6 +1,6 @@
 window.NAMCO_CONFIG = {
   projectPath: "/namco-parkgolf-isopen/",
-  facilityId: "park-golf",
+  facilityId: "park_golf",
 
   firebase: {
     apiKey: "AIzaSyDIxWquVpyD966Ur8GojY-QwENh3aByfqU",

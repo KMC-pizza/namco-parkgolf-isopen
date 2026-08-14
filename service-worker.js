@@ -13,7 +13,8 @@ firebase.initializeApp({
 // Firebase Messaging이 이 서비스워커를 통해 백그라운드 푸시를 처리합니다.
 firebase.messaging();
 
-const CACHE_NAME = "namco-parkgolf-isopen-pwa-v2";
+// 89차: config.js/app.js 변경이 기존 캐시에 남지 않도록 캐시 버전 갱신
+const CACHE_NAME = "namco-parkgolf-isopen-pwa-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
