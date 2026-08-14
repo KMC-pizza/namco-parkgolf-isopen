@@ -30,6 +30,8 @@ const refreshButton = document.querySelector("#refreshButton");
 let deferredInstallPrompt = null;
 let unsubscribeStatus = null;
 let fallbackLoaded = false;
+let serviceWorkerRegistration = null;
+let reloadingForServiceWorker = false;
 
 function renderFacility(facility) {
   const meta = STATUS_META[facility.status] ?? STATUS_META.CLOSED;
@@ -66,7 +68,6 @@ function renderFacility(facility) {
     </article>
   `;
 
-  // FMS의 updatedAt을 우선 표시하고, 없으면 Firestore 서버 동기화시각 사용
   lastUpdated.textContent = formatDateTime(facility.updatedAt || facility.syncedAt);
 }
 
@@ -93,7 +94,6 @@ function subscribeRealtimeStatus() {
   if (unsubscribeStatus) unsubscribeStatus();
   fallbackLoaded = false;
 
-  // FMS v36 88차 표준 문서: facilities/park_golf
   const statusRef = doc(db, "facilities", config.facilityId);
 
   unsubscribeStatus = onSnapshot(
@@ -148,6 +148,15 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+async function checkForAppUpdate() {
+  if (!serviceWorkerRegistration) return;
+  try {
+    await serviceWorkerRegistration.update();
+  } catch (error) {
+    console.warn("서비스워커 업데이트 확인 실패:", error);
+  }
+}
+
 window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
   deferredInstallPrompt = event;
@@ -167,13 +176,33 @@ window.addEventListener("appinstalled", () => {
   installButton.hidden = true;
 });
 
-refreshButton.addEventListener("click", subscribeRealtimeStatus);
+refreshButton.addEventListener("click", () => {
+  subscribeRealtimeStatus();
+  checkForAppUpdate();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    checkForAppUpdate();
+  }
+});
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch((error) => {
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (reloadingForServiceWorker) return;
+    reloadingForServiceWorker = true;
+    window.location.reload();
+  });
+
+  window.addEventListener("load", async () => {
+    try {
+      serviceWorkerRegistration = await navigator.serviceWorker.register("./service-worker.js?v=90", {
+        updateViaCache: "none"
+      });
+      await checkForAppUpdate();
+    } catch (error) {
       console.error("Service Worker 등록 실패:", error);
-    });
+    }
   });
 }
 
